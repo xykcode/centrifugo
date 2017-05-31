@@ -136,6 +136,7 @@ func Main(version string) {
 				"user_channel_boundary":          "#",
 				"user_channel_separator":         ",",
 				"client_channel_boundary":        "&",
+				"callbackurl_leave":			  "http://localhost/user/leave",
 			}
 
 			for k, v := range defaults {

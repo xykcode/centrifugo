@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"sync"
 	"time"
-
+	"github.com/centrifugal/centrifugo/libcentrifugo/callback"
 	"github.com/centrifugal/centrifugo/libcentrifugo/auth"
 	"github.com/centrifugal/centrifugo/libcentrifugo/conns"
 	"github.com/centrifugal/centrifugo/libcentrifugo/logger"
@@ -267,12 +267,13 @@ func (c *client) Close(advice *conns.DisconnectAdvice) error {
 
 	close(c.closeCh)
 	c.closed = true
-
 	c.messages.Close()
 
 	if len(c.channels) > 0 {
+		strchannels := []string{}
 		// unsubscribe from all channels
 		for channel := range c.channels {
+			strchannels = append(strchannels,channel)
 			cmd := &proto.UnsubscribeClientCommand{
 				Channel: channel,
 			}
@@ -281,6 +282,12 @@ func (c *client) Close(advice *conns.DisconnectAdvice) error {
 				logger.ERROR.Println(err)
 			}
 		}
+
+		leaveinfo := callback.LeaveInfo{
+			Channels:strchannels,
+			Uid:c.user,
+		}
+		callback.LeaveCh <- leaveinfo
 	}
 
 	if c.authenticated {

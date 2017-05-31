@@ -1,6 +1,15 @@
 {
-  "secret": "secret",
+  "callback_url_leave": "http://localhost:8080/v1/object/leave",
+  "secret": "demo",
   "web": true,
+  "anonymous": true,
+  "publish": true,
+  "watch": true,
+  "presence": true,
+  "join_leave": true,
+  "history_size": 10,
+  "history_lifetime": 30,
+  "recover": true,
   "admin_password": "password",
   "admin_secret": "secret",
   "namespaces": [

@@ -127,6 +127,8 @@ type Config struct {
 
 	// Namespaces - list of namespaces for custom channel options.
 	Namespaces []channel.Namespace `json:"namespaces"`
+	// CallbackurlLeave is user leave message callback to msgbackend
+	CallbackUrlLeave string 	`json:"callback_url_leave"`
 }
 
 func stringInSlice(a string, list []string) bool {
@@ -212,6 +214,7 @@ func NewConfig(v config.Getter) *Config {
 	cfg := &Config{}
 
 	cfg.Name = getApplicationName(v)
+	cfg.CallbackUrlLeave = v.GetString("callback_url_leave")
 	cfg.Debug = v.GetBool("debug")
 	cfg.Admin = v.GetBool("admin")
 	cfg.AdminPassword = v.GetString("admin_password")
